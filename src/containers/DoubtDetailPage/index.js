@@ -7,12 +7,20 @@ import { push } from 'connected-react-router'
 import { DoubtListMainContainer, BodyPostsContainer, AddPostBar, InputAddPostBar } from '../DoubtListPage/styled'
 import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
-import PostCard from '../../Components/PostCard';
+import QuestionCard from '../../Components/QuestionCard';
 import { PostCardMainContainer } from '../../Components/PostCard/styled';
 import AnswerCard from "../../Components/AnswerCard";
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
+`
+
+const LogoAppBarNav = styled(LogoAppBar)`
+    cursor:pointer;
+`
+
+const PostAnswersMainContainer = styled(PostCardMainContainer)`
+    cursor: default;
 `
 
 const InputAddPostBarStyled = styled(InputAddPostBar)`
@@ -39,25 +47,27 @@ class DoubtDetail extends React.Component {
     }
 
     render() {
+
+        const { goToHomePage } = this.props
+
         return (
             <DoubtListMainContainer>
-            <AppBar>
-                <LogoAppBar src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
-                <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
-            </AppBar>
-            <BodyPostsContainer>
-                <PostCard />
-                <PostCardMainContainer>
-                <AnswerCard />
-                <AnswerCard />
-                </PostCardMainContainer>
-                
-            </BodyPostsContainer>
-            <AddPostBar>
-                    <InputAddPostBarStyled placeholder="Comentar"/>
-                    <SendIconStyled/>
-            </AddPostBar>
-        </DoubtListMainContainer>
+                <AppBar>
+                    <LogoAppBarNav onClick={goToHomePage} src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
+                    <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
+                </AppBar>
+                <BodyPostsContainer>
+                    <PostAnswersMainContainer>
+                        <QuestionCard />
+                        <AnswerCard />
+                        <AnswerCard />
+                    </PostAnswersMainContainer>
+                </BodyPostsContainer>
+                <AddPostBar>
+                    <InputAddPostBarStyled placeholder="Comentar" />
+                    <SendIconStyled />
+                </AddPostBar>
+            </DoubtListMainContainer>
         )
     }
 }
@@ -66,8 +76,8 @@ class DoubtDetail extends React.Component {
 
 // })
 
-// mapDispatchToProps=dispatch=>({
+const mapDispatchToProps = dispatch => ({
+    goToHomePage: () => dispatch(push(routes.home))
+})
 
-// })
-
-export default connect(null, null)(DoubtDetail)
+export default connect(null, mapDispatchToProps)(DoubtDetail)

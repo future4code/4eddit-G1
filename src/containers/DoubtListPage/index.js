@@ -8,6 +8,7 @@ import { DoubtListMainContainer, BodyPostsContainer, AddPostBar, InputAddPostBar
 import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
 import PostCard from '../../Components/PostCard';
+import { getPosts } from '../../actions';
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
@@ -32,7 +33,14 @@ class DoubtList extends React.Component {
         }
     }
 
+    componentDidMount(){
+        this.props.getPosts()
+    }
+
     render() {
+
+        const{ goToDetailPage } = this.props
+
         return (
             <DoubtListMainContainer>
                 <AppBar>
@@ -40,7 +48,7 @@ class DoubtList extends React.Component {
                     <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
                 </AppBar>
                 <BodyPostsContainer>
-                    <PostCard />
+                    <PostCard/>
                     <PostCard />
                 </BodyPostsContainer>
                 <AddPostBar>
@@ -57,8 +65,9 @@ class DoubtList extends React.Component {
 
 // })
 
-// mapDispatchToProps=dispatch=>({
+const mapDispatchToProps = dispatch => ({
+    goToDetailPage: () => dispatch(push(routes.detail)),
+    getPosts: () => dispatch(getPosts()),
+})
 
-// })
-
-export default connect(null, null)(DoubtList)
+export default connect(null, mapDispatchToProps)(DoubtList)

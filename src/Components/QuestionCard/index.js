@@ -2,9 +2,8 @@ import React from "react";
 import styled from 'styled-components'
 import { AppBar, LogoAppBar, SearchAppBar, InputSearchAppBar } from '../../style/styled'
 import { connect } from 'react-redux'
-import { routes } from '../../containers/Router'
 import { push } from 'connected-react-router'
-import { PostCardMainContainer, HeaderPostContent, UserName, BodyPostContent, FooterPostContent, ButtonArea, ComentWords, UpArrow, DownArrow } from './styled'
+import { QuestionCardMainContainer, HeaderPostContent, UserName, BodyPostContent, FooterPostContent, ButtonArea, ComentWords, UpArrow, DownArrow } from './styled'
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import AnswerCard from "../AnswerCard";
@@ -15,7 +14,7 @@ const AvatarStyled = styled(Avatar)`
     height:30px;
 `
 
-class PostCard extends React.Component{
+class QuestionCard extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -24,14 +23,12 @@ class PostCard extends React.Component{
     }
 
     render(){
-
-        const {goToDetailPage} = this.props
-
         return(
-            <PostCardMainContainer onClick={goToDetailPage}>
+            <QuestionCardMainContainer>
                 <HeaderPostContent><AvatarStyled>B</AvatarStyled><UserName>Brunna</UserName></HeaderPostContent>
                 <BodyPostContent>
                 <h3>Como eu ligo meu app ao redux?</h3>
+                <p>eu ja tentei de tudo, fiz os imports, ja verifiquei os nomes e mesmo assim continuo com este problema, alguem me salva por favor?</p>
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
@@ -42,7 +39,7 @@ class PostCard extends React.Component{
                     
                     <ComentWords>2 comentários</ComentWords>
                 </FooterPostContent>
-            </PostCardMainContainer>
+            </QuestionCardMainContainer>
         )
     }
 }
@@ -51,8 +48,8 @@ class PostCard extends React.Component{
 
 // })
 
-const mapDispatchToProps=dispatch=>({
-    goToDetailPage: () => dispatch(push(routes.detail))
-})
+// mapDispatchToProps=dispatch=>({
 
-export default connect(null, mapDispatchToProps)(PostCard)
+// })
+
+export default connect(null, null)(QuestionCard)
