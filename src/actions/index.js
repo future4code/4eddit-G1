@@ -9,6 +9,20 @@ const setPosts = (posts) => ({
     }
 })
 
+export const setCurrentPost = (currentPost) => ({
+    type: 'SET_CURRENT_POST',
+    payload: {
+        currentPost
+    }
+})
+
+export const setDetailsPost = (detailsPost) => ({
+    type: 'SET_DETAILS_POST',
+    payload: {
+        detailsPost
+    }
+})
+
 
 
 export const createPost = (titletyped, texttyped) => async (dispatch) => {
@@ -62,5 +76,17 @@ export const votePosts = (vote, postId) => async (dispatch) => {
     })
 
     dispatch(getPosts())
+}
+
+export const getPostDetails = (postId) => async () => {
+    const token = window.localStorage.getItem("token");
+    console.log(postId)
+    const response = await axios.get(`${urlBase}/posts/${postId}`, {
+        headers:{
+        auth: token
+        }
+
+    })
+    console.log(response)
 }
 

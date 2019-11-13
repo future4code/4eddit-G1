@@ -10,6 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 import QuestionCard from '../../Components/QuestionCard';
 import { PostCardMainContainer } from '../../Components/PostCard/styled';
 import AnswerCard from "../../Components/AnswerCard";
+import { getPostDetails } from '../../actions'
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
@@ -47,6 +48,10 @@ class DoubtDetail extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getPostDetails(this.props.currentIdPost)
+    }
+
     render() {
 
         const { goToHomePage } = this.props
@@ -73,12 +78,13 @@ class DoubtDetail extends React.Component {
     }
 }
 
-// mapStateToProps= state =>({
-
-// })
-
-const mapDispatchToProps = dispatch => ({
-    goToHomePage: () => dispatch(push(routes.home))
+const mapStateToProps= state =>({
+    currentIdPost: state.posts.currentIdPost
 })
 
-export default connect(null, mapDispatchToProps)(DoubtDetail)
+const mapDispatchToProps = dispatch => ({
+    goToHomePage: () => dispatch(push(routes.home)),
+    getPostDetails: (postId) => dispatch(getPostDetails(postId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DoubtDetail)

@@ -8,7 +8,7 @@ import { PostCardMainContainer, HeaderPostContent, UserName, BodyPostContent, Po
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import AnswerCard from "../AnswerCard";
-import { votePosts } from "../../actions";
+import { votePosts, setCurrentPost  } from "../../actions";
 
 const AvatarStyled = styled(Avatar)`
     background: #f47e20;
@@ -29,6 +29,12 @@ class PostCard extends React.Component {
         this.props.updateVotes(totalVotes, this.props.postId)
     }
 
+    lockId = () => {
+        this.props.setCurrentPost(this.props.postId)
+        this.props.goToDetailPage()
+    }
+
+
     render() {
 
         const { goToDetailPage, username, title, votesCount, commentsNumber, postId } = this.props
@@ -37,7 +43,7 @@ class PostCard extends React.Component {
             <PostCardMainContainer>
     <HeaderPostContent><AvatarStyled>{username ? username.substr(0, 1) : ""}</AvatarStyled><UserName>{username}</UserName></HeaderPostContent>
                 <BodyPostContent>
-                   <PostTitle onClick={goToDetailPage}>{title}</PostTitle>
+                   <PostTitle onClick={this.lockId}>{title}</PostTitle>
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
@@ -58,7 +64,8 @@ class PostCard extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
     goToDetailPage: () => dispatch(push(routes.detail)),
-    updateVotes: (vote, postId) => dispatch(votePosts(vote, postId))
+    updateVotes: (vote, postId) => dispatch(votePosts(vote, postId)),
+    setCurrentPost: (currentPostId) => dispatch(setCurrentPost(currentPostId))
 })
 
 export default connect(null, mapDispatchToProps)(PostCard)
