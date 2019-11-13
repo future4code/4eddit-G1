@@ -20,7 +20,8 @@ const LogoAppBarNav = styled(LogoAppBar)`
 `
 
 const PostAnswersMainContainer = styled(PostCardMainContainer)`
-    cursor: default;
+    cursor: default; 
+    margin-bottom: 8%;
 `
 
 const InputAddPostBarStyled = styled(InputAddPostBar)`

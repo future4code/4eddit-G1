@@ -12,6 +12,7 @@ export const BodyPostsContainer = styled.div`
     display:flex;
     flex-direction:column;
     width:90%;
+    margin-bottom: 10%;
 `
 
 

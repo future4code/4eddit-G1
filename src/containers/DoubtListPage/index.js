@@ -8,7 +8,8 @@ import { DoubtListMainContainer, BodyPostsContainer, AddPostBar, InputAddPostBar
 import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
 import PostCard from '../../Components/PostCard';
-import { getPosts } from '../../actions';
+import { getPosts, createPost } from '../../actions';
+
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
@@ -29,7 +30,8 @@ class DoubtList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            texttyped: "",
+            titletyped: "",
         }
     }
 
@@ -37,9 +39,31 @@ class DoubtList extends React.Component {
         this.props.getPosts()
     }
 
+    onClickCreatePost = () => {
+         this.props.createPost(this.state.titletyped, this.state.texttyped)   
+    }
+
+    onTypeText = (event) => {
+        this.setState({texttyped:event.target.value})
+    }
+
+    onTypeTitle = (event) => {
+        this.setState({titletyped:event.target.value})
+    }
+
     render() {
 
-        const{ goToDetailPage } = this.props
+        const{ goToDetailPage, allPosts } = this.props
+
+        const listPosts = allPosts.map((post, index)=> {
+            return <PostCard 
+            username={post.username}
+            title={post.title}
+            votesCount={post.votesCount}
+            commentsNumber={post.commentsNumber}
+            postId={post.id}
+            /> 
+        })
 
         return (
             <DoubtListMainContainer>
@@ -48,26 +72,36 @@ class DoubtList extends React.Component {
                     <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
                 </AppBar>
                 <BodyPostsContainer>
-                    <PostCard/>
-                    <PostCard />
+                    {listPosts}
                 </BodyPostsContainer>
                 <AddPostBar>
-                        <InputAddPostBar placeholder="Título"/>
-                        <InputAddPostBar placeholder="Descrição"/>
-                        <SendIconStyled/>
+                        <InputAddPostBar 
+                            placeholder="Título" 
+                            onChange={this.onTypeText} 
+                            value = {this.state.texttyped} 
+                        />
+                        <InputAddPostBar 
+                            placeholder="Descrição" 
+                            onChange={this.onTypeTitle} 
+                            value={this.state.titletyped}
+                        />
+                        <SendIconStyled onClick={this.onClickCreatePost}/>
                 </AddPostBar>
             </DoubtListMainContainer>
         )
     }
 }
 
-// mapStateToProps= state =>({
+const mapStateToProps= state =>({
+    allPosts: state.posts.allPosts
 
-// })
+})
 
 const mapDispatchToProps = dispatch => ({
     goToDetailPage: () => dispatch(push(routes.detail)),
     getPosts: () => dispatch(getPosts()),
+    createPost: (titletyped, texttyped) => dispatch(createPost(titletyped, texttyped))
+
 })
 
-export default connect(null, mapDispatchToProps)(DoubtList)
+export default connect(mapStateToProps, mapDispatchToProps)(DoubtList)
