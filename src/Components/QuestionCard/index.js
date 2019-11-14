@@ -14,30 +14,36 @@ const AvatarStyled = styled(Avatar)`
     height:30px;
 `
 
-class QuestionCard extends React.Component{
-    constructor(props){
+class QuestionCard extends React.Component {
+    constructor(props) {
         super(props)
-        this.state={
-            
+        this.state = {
+
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <QuestionCardMainContainer>
-                <HeaderPostContent><AvatarStyled>B</AvatarStyled><UserName>Brunna</UserName></HeaderPostContent>
+                <HeaderPostContent>
+                    <AvatarStyled>{this.props.username ? this.props.username.substr(0, 1) : "F40"}
+                    </AvatarStyled>
+                    <UserName>{this.props.username}</UserName>
+                </HeaderPostContent>
                 <BodyPostContent>
-                <h3>Como eu ligo meu app ao redux?</h3>
-                <p>eu ja tentei de tudo, fiz os imports, ja verifiquei os nomes e mesmo assim continuo com este problema, alguem me salva por favor?</p>
+                    <h3>{this.props.title}</h3>
+                    <p>{this.props.text}</p>
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
-                    <UpArrow src={require('../../assets/up.png')} alt="up"/>
-                    <span>0</span>
-                    <DownArrow src={require('../../assets/up.png')} alt="down"/>
+                        <UpArrow src={require('../../assets/up.png')} alt="up" />
+                        <span>{this.props.votesCount}</span>
+                        <DownArrow src={require('../../assets/up.png')} alt="down" />
                     </ButtonArea>
-                    
-                    <ComentWords>2 comentários</ComentWords>
+
+                    <ComentWords>
+                        {this.props.commentsNumber ? this.props.commentsNumber : 0 } comentários
+                    </ComentWords>
                 </FooterPostContent>
             </QuestionCardMainContainer>
         )

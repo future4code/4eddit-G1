@@ -33,8 +33,20 @@ class Login extends React.Component{
                 <LogoAppBar src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
                 <form onSubmit={this.doLogin}>
                 <LoginArea>
-                <InputAddPostBar name="email" value={this.state.email} onChange={this.handleInput} type="email" placeholder="Email"/>
-                <InputAddPostBar onChange={this.handleInput} name="password" value={this.state.password} type="password" placeholder="Senha"/>
+                <InputAddPostBar 
+                    name="email" 
+                    value={this.state.email} 
+                    onChange={this.handleInput} 
+                    type="email" 
+                    placeholder="Email"
+                />
+                <InputAddPostBar 
+                    onChange={this.handleInput} 
+                    name="password" 
+                    value={this.state.password} 
+                    type="password" 
+                    placeholder="Senha"
+                />
                 <ButtonArea>
                 <ButtonStyled>Entrar</ButtonStyled>
                 <ButtonStyled>Registrar</ButtonStyled>

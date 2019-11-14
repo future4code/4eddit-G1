@@ -78,15 +78,17 @@ export const votePosts = (vote, postId) => async (dispatch) => {
     dispatch(getPosts())
 }
 
-export const getPostDetails = (postId) => async () => {
+export const getPostDetails = (postId) => async (dispatch) => {
     const token = window.localStorage.getItem("token");
-    console.log(postId)
+    
     const response = await axios.get(`${urlBase}/posts/${postId}`, {
         headers:{
         auth: token
         }
 
     })
-    console.log(response)
+
+    dispatch(setDetailsPost(response.data.post))
+    
 }
 

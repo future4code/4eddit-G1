@@ -57,6 +57,7 @@ class DoubtList extends React.Component {
 
         const listPosts = allPosts.map((post, index)=> {
             return <PostCard 
+            key={index}
             username={post.username}
             title={post.title}
             votesCount={post.votesCount}

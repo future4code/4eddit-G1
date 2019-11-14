@@ -8,7 +8,7 @@ import { PostCardMainContainer, HeaderPostContent, UserName, BodyPostContent, Po
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import AnswerCard from "../AnswerCard";
-import { votePosts, setCurrentPost  } from "../../actions";
+import { votePosts, setCurrentPost } from "../../actions";
 
 const AvatarStyled = styled(Avatar)`
     background: #f47e20;
@@ -41,17 +41,20 @@ class PostCard extends React.Component {
 
         return (
             <PostCardMainContainer>
-    <HeaderPostContent><AvatarStyled>{username ? username.substr(0, 1) : ""}</AvatarStyled><UserName>{username}</UserName></HeaderPostContent>
+                <HeaderPostContent>
+                    <AvatarStyled>{username ? username.substr(0, 1) : ""}</AvatarStyled>
+                    <UserName>{username}</UserName>
+                </HeaderPostContent>
                 <BodyPostContent>
-                   <PostTitle onClick={this.lockId}>{title}</PostTitle>
+                    <PostTitle onClick={this.lockId}>{title}</PostTitle>
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
-                        <UpArrow onClick= {() => this.updateVote(1)} src={require('../../assets/up.png')} alt="up" />
+                        <UpArrow onClick={() => this.updateVote(1)} src={require('../../assets/up.png')} alt="up" />
                         <span>{votesCount ? votesCount : 0}</span>
-                        <DownArrow onClick= {() => this.updateVote( -1)} src={require('../../assets/up.png')} alt="down" />
+                        <DownArrow onClick={() => this.updateVote(-1)} src={require('../../assets/up.png')} alt="down" />
                     </ButtonArea>
-                    <ComentWords>{commentsNumber ? commentsNumber : 0} comentários</ComentWords>
+                    <ComentWords onClick={this.lockId}>{commentsNumber ? commentsNumber : 0} comentários</ComentWords>
                 </FooterPostContent>
             </PostCardMainContainer>
         )
