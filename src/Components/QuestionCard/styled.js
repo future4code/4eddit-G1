@@ -5,6 +5,7 @@ export const QuestionCardMainContainer = styled.div`
     flex-direction:column;
     align-items:center;
     margin: 10px 0;
+    width: 100%;
 `
 
 export const HeaderPostContent = styled.div`

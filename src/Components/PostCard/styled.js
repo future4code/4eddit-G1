@@ -8,7 +8,10 @@ export const PostCardMainContainer = styled.div`
     border-radius: 30px;
     border: 2px solid #45525b;
     margin: 10px 0;
-    cursor:pointer;
+`
+
+export const PostTitle = styled.h3`
+    cursor: pointer;
 `
 
 export const HeaderPostContent = styled.div`

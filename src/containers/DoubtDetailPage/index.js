@@ -10,6 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 import QuestionCard from '../../Components/QuestionCard';
 import { PostCardMainContainer } from '../../Components/PostCard/styled';
 import AnswerCard from "../../Components/AnswerCard";
+import { getPostDetails } from '../../actions'
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
@@ -20,7 +21,8 @@ const LogoAppBarNav = styled(LogoAppBar)`
 `
 
 const PostAnswersMainContainer = styled(PostCardMainContainer)`
-    cursor: default;
+    cursor: default; 
+    margin-bottom: 8%;
 `
 
 const InputAddPostBarStyled = styled(InputAddPostBar)`
@@ -42,14 +44,39 @@ class DoubtDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            comment: ""
         }
     }
 
+    componentDidMount() {
+
+        if (this.props.currentIdPost) { this.props.getPostDetails(this.props.currentIdPost) }
+    }
+
+    handleInput = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
+
+
     render() {
 
-        const { goToHomePage } = this.props
+        const { goToHomePage, detailsPost } = this.props
+        let answersList
 
+        if (detailsPost.comments) {
+
+        console.log(detailsPost.comments)
+            let answersList = detailsPost.comments.map((comment, index) => {
+                return <AnswerCard
+                    key={index}
+                    username={comment.username}
+                    text={comment.text}
+                    votesCount={comment.votesCount}
+                    userVoteDirection={comment.userVoteDirection}
+                />
+            })
+        } else { let answersList = <AnswerCard/> }
         return (
             <DoubtListMainContainer>
                 <AppBar>
@@ -58,13 +85,24 @@ class DoubtDetail extends React.Component {
                 </AppBar>
                 <BodyPostsContainer>
                     <PostAnswersMainContainer>
-                        <QuestionCard />
-                        <AnswerCard />
-                        <AnswerCard />
+                        <QuestionCard
+                            username={detailsPost.username}
+                            title={detailsPost.title}
+                            text={detailsPost.text}
+                            votesCount={detailsPost.votesCount}
+                            commentsNumber={detailsPost.commentsNumber}
+                        />
+                        {answersList}
                     </PostAnswersMainContainer>
                 </BodyPostsContainer>
                 <AddPostBar>
-                    <InputAddPostBarStyled placeholder="Comentar" />
+                    <InputAddPostBarStyled
+                        name="comment"
+                        value={this.state.comment}
+                        onChange={this.handleInput}
+                        type="text"
+                        placeholder="Comentar"
+                    />
                     <SendIconStyled />
                 </AddPostBar>
             </DoubtListMainContainer>
@@ -72,12 +110,14 @@ class DoubtDetail extends React.Component {
     }
 }
 
-// mapStateToProps= state =>({
-
-// })
-
-const mapDispatchToProps = dispatch => ({
-    goToHomePage: () => dispatch(push(routes.home))
+const mapStateToProps = state => ({
+    currentIdPost: state.posts.currentIdPost,
+    detailsPost: state.posts.detailsPost
 })
 
-export default connect(null, mapDispatchToProps)(DoubtDetail)
+const mapDispatchToProps = dispatch => ({
+    goToHomePage: () => dispatch(push(routes.home)),
+    getPostDetails: (postId) => dispatch(getPostDetails(postId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DoubtDetail)

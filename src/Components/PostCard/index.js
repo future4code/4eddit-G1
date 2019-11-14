@@ -4,10 +4,11 @@ import { AppBar, LogoAppBar, SearchAppBar, InputSearchAppBar } from '../../style
 import { connect } from 'react-redux'
 import { routes } from '../../containers/Router'
 import { push } from 'connected-react-router'
-import { PostCardMainContainer, HeaderPostContent, UserName, BodyPostContent, FooterPostContent, ButtonArea, ComentWords, UpArrow, DownArrow } from './styled'
+import { PostCardMainContainer, HeaderPostContent, UserName, BodyPostContent, PostTitle, FooterPostContent, ButtonArea, ComentWords, UpArrow, DownArrow } from './styled'
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import AnswerCard from "../AnswerCard";
+import { votePosts, setCurrentPost } from "../../actions";
 
 const AvatarStyled = styled(Avatar)`
     background: #f47e20;
@@ -15,32 +16,45 @@ const AvatarStyled = styled(Avatar)`
     height:30px;
 `
 
-class PostCard extends React.Component{
-    constructor(props){
+class PostCard extends React.Component {
+    constructor(props) {
         super(props)
-        this.state={
-            
+        this.state = {
+
         }
     }
 
-    render(){
+    updateVote = (votes) => {
+        const totalVotes = (this.props.votesCount + votes)
+        this.props.updateVotes(totalVotes, this.props.postId)
+    }
 
-        const {goToDetailPage} = this.props
+    lockId = () => {
+        this.props.setCurrentPost(this.props.postId)
+        this.props.goToDetailPage()
+    }
 
-        return(
-            <PostCardMainContainer onClick={goToDetailPage}>
-                <HeaderPostContent><AvatarStyled>B</AvatarStyled><UserName>Brunna</UserName></HeaderPostContent>
+
+    render() {
+
+        const { goToDetailPage, username, title, votesCount, commentsNumber, postId } = this.props
+
+        return (
+            <PostCardMainContainer>
+                <HeaderPostContent>
+                    <AvatarStyled>{username ? username.substr(0, 1) : ""}</AvatarStyled>
+                    <UserName>{username}</UserName>
+                </HeaderPostContent>
                 <BodyPostContent>
-                <h3>Como eu ligo meu app ao redux?</h3>
+                    <PostTitle onClick={this.lockId}>{title}</PostTitle>
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
-                    <UpArrow src={require('../../assets/up.png')} alt="up"/>
-                    <span>0</span>
-                    <DownArrow src={require('../../assets/up.png')} alt="down"/>
+                        <UpArrow onClick={() => this.updateVote(1)} src={require('../../assets/up.png')} alt="up" />
+                        <span>{votesCount ? votesCount : 0}</span>
+                        <DownArrow onClick={() => this.updateVote(-1)} src={require('../../assets/up.png')} alt="down" />
                     </ButtonArea>
-                    
-                    <ComentWords>2 comentários</ComentWords>
+                    <ComentWords onClick={this.lockId}>{commentsNumber ? commentsNumber : 0} comentários</ComentWords>
                 </FooterPostContent>
             </PostCardMainContainer>
         )
@@ -51,8 +65,10 @@ class PostCard extends React.Component{
 
 // })
 
-const mapDispatchToProps=dispatch=>({
-    goToDetailPage: () => dispatch(push(routes.detail))
+const mapDispatchToProps = dispatch => ({
+    goToDetailPage: () => dispatch(push(routes.detail)),
+    updateVotes: (vote, postId) => dispatch(votePosts(vote, postId)),
+    setCurrentPost: (currentPostId) => dispatch(setCurrentPost(currentPostId))
 })
 
 export default connect(null, mapDispatchToProps)(PostCard)
