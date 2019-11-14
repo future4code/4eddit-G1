@@ -24,9 +24,12 @@ class PostCard extends React.Component {
         }
     }
 
-    updateVote = (votes) => {
-        const totalVotes = (this.props.votesCount + votes)
-        this.props.updateVotes(totalVotes, this.props.postId)
+    updateVote = (vote) => {
+        if(this.props.userVoteDirection!==vote){
+            this.props.updateVotes(Number(vote), this.props.postId)
+        }else if(this.props.userVoteDirection===vote){
+            this.props.updateVotes(0, this.props.postId)
+        }
     }
 
     lockId = () => {
@@ -39,6 +42,20 @@ class PostCard extends React.Component {
 
         const { goToDetailPage, username, title, votesCount, commentsNumber, postId } = this.props
 
+        let imgup
+        if(this.props.userVoteDirection===1){
+            imgup = require('../../assets/upOrange.png')
+        }else{
+            imgup = require('../../assets/up.png')
+        }
+
+        let imgdown
+        if(this.props.userVoteDirection===-1){
+            imgdown = require('../../assets/upOrange.png')
+        }else{
+            imgdown = require('../../assets/up.png')
+        }
+
         return (
             <PostCardMainContainer>
                 <HeaderPostContent>
@@ -50,11 +67,11 @@ class PostCard extends React.Component {
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
-                        <UpArrow onClick={() => this.updateVote(1)} src={require('../../assets/up.png')} alt="up" />
+                        <UpArrow onClick={() => this.updateVote(1)} src={imgup} alt="up" />
                         <span>{votesCount ? votesCount : 0}</span>
-                        <DownArrow onClick={() => this.updateVote(-1)} src={require('../../assets/up.png')} alt="down" />
+                        <DownArrow onClick={() => this.updateVote(-1)} src={imgdown} alt="down" />
                     </ButtonArea>
-                    <ComentWords onClick={this.lockId}>{commentsNumber ? commentsNumber : 0} comentários</ComentWords>
+                    <ComentWords onClick={this.lockId}>{commentsNumber ? commentsNumber : 'sem'} {commentsNumber === 1 ? 'comentário' : 'comentários'}</ComentWords>
                 </FooterPostContent>
             </PostCardMainContainer>
         )

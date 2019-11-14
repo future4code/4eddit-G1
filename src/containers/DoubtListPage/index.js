@@ -8,11 +8,15 @@ import { DoubtListMainContainer, BodyPostsContainer, AddPostBar, InputAddPostBar
 import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
 import PostCard from '../../Components/PostCard';
-import { getPosts, createPost } from '../../actions';
+import { getPosts, createPost, setErrorMsg } from '../../actions';
 
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
+`
+
+const LogoAppBarStyled = styled(LogoAppBar)`
+    cursor:pointer;
 `
 
 const SendIconStyled = styled(SendIcon)`
@@ -32,77 +36,96 @@ class DoubtList extends React.Component {
         this.state = {
             texttyped: "",
             titletyped: "",
+            textFiltered: ""
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getPosts()
+
+        const token = window.localStorage.getItem('token')
+
+        if (token === null) {
+            this.props.setErrorMsg('Faça login para acessar a página solicitada.')
+            this.props.goToHomePage()
+        }
     }
 
     onClickCreatePost = () => {
-         this.props.createPost(this.state.titletyped, this.state.texttyped)   
+        this.props.createPost(this.state.titletyped, this.state.texttyped)
+        this.setState({ texttyped: "", titletyped: "" })
     }
 
     onTypeText = (event) => {
-        this.setState({texttyped:event.target.value})
+        this.setState({ texttyped: event.target.value })
     }
 
     onTypeTitle = (event) => {
-        this.setState({titletyped:event.target.value})
+        this.setState({ titletyped: event.target.value })
+    }
+
+    onTypeFilter = (event) => {
+        this.setState({ textFiltered: event.target.value })
     }
 
     render() {
 
-        const{ goToDetailPage, allPosts } = this.props
+        const { goToDetailPage, allPosts, goToHomePage } = this.props
+        let listPosts
+       
+        const filtered = allPosts.filter(post=> post.title ? post.title.toLowerCase().search(this.state.textFiltered.toLowerCase()) !== -1 : null)
 
-        const listPosts = allPosts.map((post, index)=> {
-            return <PostCard 
-            key={index}
-            username={post.username}
-            title={post.title}
-            votesCount={post.votesCount}
-            commentsNumber={post.commentsNumber}
-            postId={post.id}
-            /> 
+        listPosts = filtered.map((post, index) => {
+            return <PostCard
+                key={index}
+                username={post.username}
+                title={post.title}
+                votesCount={post.votesCount}
+                commentsNumber={post.commentsNumber}
+                postId={post.id}
+                userVoteDirection={post.userVoteDirection}
+            />
         })
+    
 
         return (
             <DoubtListMainContainer>
                 <AppBar>
-                    <LogoAppBar src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
-                    <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
+                    <LogoAppBarStyled onClick={goToHomePage} src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
+                    <SearchAppBar><SearchIconStyled /><InputSearchAppBar value={this.state.textFiltered} onChange={this.onTypeFilter} type="text" /></SearchAppBar>
                 </AppBar>
                 <BodyPostsContainer>
                     {listPosts}
                 </BodyPostsContainer>
                 <AddPostBar>
-                        <InputAddPostBar 
-                            placeholder="Título" 
-                            onChange={this.onTypeText} 
-                            value = {this.state.texttyped} 
-                        />
-                        <InputAddPostBar 
-                            placeholder="Descrição" 
-                            onChange={this.onTypeTitle} 
-                            value={this.state.titletyped}
-                        />
-                        <SendIconStyled onClick={this.onClickCreatePost}/>
+                    <InputAddPostBar
+                        placeholder="Título"
+                        onChange={this.onTypeText}
+                        value={this.state.texttyped}
+                    />
+                    <InputAddPostBar
+                        placeholder="Descrição"
+                        onChange={this.onTypeTitle}
+                        value={this.state.titletyped}
+                    />
+                    <SendIconStyled onClick={this.onClickCreatePost} />
                 </AddPostBar>
             </DoubtListMainContainer>
         )
     }
 }
 
-const mapStateToProps= state =>({
+const mapStateToProps = state => ({
     allPosts: state.posts.allPosts
 
 })
 
 const mapDispatchToProps = dispatch => ({
     goToDetailPage: () => dispatch(push(routes.detail)),
+    goToHomePage: () => dispatch(push(routes.home)),
     getPosts: () => dispatch(getPosts()),
-    createPost: (titletyped, texttyped) => dispatch(createPost(titletyped, texttyped))
-
+    createPost: (titletyped, texttyped) => dispatch(createPost(titletyped, texttyped)),
+    setErrorMsg: (errorMsg) => dispatch(setErrorMsg(errorMsg)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoubtList)

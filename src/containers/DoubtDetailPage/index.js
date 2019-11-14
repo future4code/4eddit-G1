@@ -10,7 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 import QuestionCard from '../../Components/QuestionCard';
 import { PostCardMainContainer } from '../../Components/PostCard/styled';
 import AnswerCard from "../../Components/AnswerCard";
-import { getPostDetails } from '../../actions'
+import { getPostDetails, createComment, setErrorMsg } from '../../actions'
 
 const SearchIconStyled = styled(SearchIcon)`
     color:white;
@@ -49,39 +49,51 @@ class DoubtDetail extends React.Component {
     }
 
     componentDidMount() {
-
         if (this.props.currentIdPost) { this.props.getPostDetails(this.props.currentIdPost) }
+        
+        const token = window.localStorage.getItem('token')
+
+        if(token===null){
+            this.props.setErrorMsg('Faça login para acessar a página solicitada.')
+            this.props.goToHomePage()
+        }
     }
 
     handleInput = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState({ comment: event.target.value })
     }
 
-
+    setComment=()=>{
+        this.props.createComment(this.state.comment, this.props.currentIdPost)
+        this.setState({comment: ""})
+    }
 
     render() {
 
-        const { goToHomePage, detailsPost } = this.props
+        const { goToHomePage, detailsPost, currentIdPost } = this.props
+
         let answersList
 
         if (detailsPost.comments) {
-
-        console.log(detailsPost.comments)
-            let answersList = detailsPost.comments.map((comment, index) => {
+            answersList = detailsPost.comments.map((comment, index) => {
+                
                 return <AnswerCard
                     key={index}
                     username={comment.username}
                     text={comment.text}
                     votesCount={comment.votesCount}
+                    postId={currentIdPost}
                     userVoteDirection={comment.userVoteDirection}
+                    commentId={comment.id}
                 />
             })
-        } else { let answersList = <AnswerCard/> }
+        } else { answersList = <AnswerCard /> }
+
         return (
             <DoubtListMainContainer>
                 <AppBar>
                     <LogoAppBarNav onClick={goToHomePage} src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
-                    <SearchAppBar><SearchIconStyled /><InputSearchAppBar type="text" /></SearchAppBar>
+                    
                 </AppBar>
                 <BodyPostsContainer>
                     <PostAnswersMainContainer>
@@ -91,6 +103,8 @@ class DoubtDetail extends React.Component {
                             text={detailsPost.text}
                             votesCount={detailsPost.votesCount}
                             commentsNumber={detailsPost.commentsNumber}
+                            postId={currentIdPost}
+                            userVoteDirection={detailsPost.userVoteDirection}
                         />
                         {answersList}
                     </PostAnswersMainContainer>
@@ -103,7 +117,7 @@ class DoubtDetail extends React.Component {
                         type="text"
                         placeholder="Comentar"
                     />
-                    <SendIconStyled />
+                    <SendIconStyled onClick={this.setComment} />
                 </AddPostBar>
             </DoubtListMainContainer>
         )
@@ -116,8 +130,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    goToHomePage: () => dispatch(push(routes.home)),
-    getPostDetails: (postId) => dispatch(getPostDetails(postId))
+    goToHomePage: () => dispatch(push(routes.list)),
+    getPostDetails: (postId) => dispatch(getPostDetails(postId)),
+    createComment: (text, postId) => dispatch(createComment(text, postId)),
+    setErrorMsg: (errorMsg) => dispatch(setErrorMsg(errorMsg)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoubtDetail)

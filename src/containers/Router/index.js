@@ -7,8 +7,8 @@ import SignUpPage from "../SignUpPage";
 import LoginPage from "../LoginPage";
 
 export const routes = {
+  list: "/doubt/list",
   home: "/",
-  login: "/login",
   signup: "/signup",
   detail: "/doubt/details"
 };
@@ -17,10 +17,10 @@ function Router(props) {
   return (
     <ConnectedRouter history={props.history}>
       <Switch>
-        <Route path={routes.login} component={LoginPage} />
         <Route path={routes.signup} component={SignUpPage} />
         <Route path={routes.detail} component={DoubtDetail} />
-        <Route path={routes.home} component={DoubtList} />
+        <Route path={routes.list} component={DoubtList} />
+        <Route path={routes.home} component={LoginPage} />
       </Switch>
     </ConnectedRouter>
   );

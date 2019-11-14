@@ -8,6 +8,11 @@ import {LoginContent, DoubtListMainContainer, InputAddPostBar, LoginArea, Button
 import {LogoAppBar} from '../../style/styled'
 import { login } from '../../actions/auth'
  
+const ErrorMsg = styled.span`
+    color:white;
+    background:red;
+`
+
 class Login extends React.Component{
     constructor(props){
         super(props)
@@ -33,6 +38,8 @@ class Login extends React.Component{
                 <LogoAppBar src={require('../../assets/logoBranco.png')} alt="logo FutureFlow" />
                 <form onSubmit={this.doLogin}>
                 <LoginArea>
+                   <ErrorMsg>{this.props.errorMsg}</ErrorMsg> 
+                    <h3>Login : </h3>
                 <InputAddPostBar 
                     name="email" 
                     value={this.state.email} 
@@ -49,7 +56,7 @@ class Login extends React.Component{
                 />
                 <ButtonArea>
                 <ButtonStyled>Entrar</ButtonStyled>
-                <ButtonStyled>Registrar</ButtonStyled>
+                <ButtonStyled type="button" onClick={this.props.goToSignUpPage}>Registrar</ButtonStyled>
                 </ButtonArea>
                 </LoginArea>
                 </form>
@@ -59,12 +66,13 @@ class Login extends React.Component{
     }
 }
 
-// mapStateToProps= state =>({
-
-// })
-
-const mapDispatchToProps=dispatch=>({
-    doLogin: (email,password)=>dispatch(login(email,password))
+const mapStateToProps= state =>({
+    errorMsg: state.posts.errorMsg
 })
 
-export default connect(null, mapDispatchToProps)(Login)
+const mapDispatchToProps=dispatch=>({
+    doLogin: (email,password)=>dispatch(login(email,password)),
+    goToSignUpPage: () => dispatch(push(routes.signup)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -16,14 +16,19 @@ export const setCurrentPost = (currentPost) => ({
     }
 })
 
+export const setErrorMsg = (errorMsg) => ({
+    type: 'SET_ERROR_MSG',
+    payload: {
+        errorMsg
+    }
+})
+
 export const setDetailsPost = (detailsPost) => ({
     type: 'SET_DETAILS_POST',
     payload: {
         detailsPost
     }
 })
-
-
 
 export const createPost = (titletyped, texttyped) => async (dispatch) => {
 
@@ -43,6 +48,25 @@ export const createPost = (titletyped, texttyped) => async (dispatch) => {
     )
 
     dispatch(getPosts())
+} 
+
+export const createComment = (texttyped, postId) => async (dispatch) => {
+
+    const token = window.localStorage.getItem("token");
+
+    const body = {
+        text: texttyped,
+    }
+
+    const response = await axios.post(`${urlBase}/posts/${postId}/comment`, body, 
+        {
+        headers:{
+            auth: token
+        }
+        }
+    )
+
+    dispatch(getPostDetails(postId))
 } 
 
 
@@ -76,6 +100,27 @@ export const votePosts = (vote, postId) => async (dispatch) => {
     })
 
     dispatch(getPosts())
+    dispatch(getPostDetails(postId))
+
+}
+
+export const voteCommentPosts = (vote, postId, commentId) => async (dispatch) => {
+
+    const token = window.localStorage.getItem("token");
+
+    const body = {
+        direction: vote
+    }
+
+    const response = await axios.put(`${urlBase}/posts/${postId}/comment/${commentId}/vote
+    `, body, {
+        headers:{
+            auth: token
+        }
+    })
+
+    dispatch(getPostDetails(postId))
+
 }
 
 export const getPostDetails = (postId) => async (dispatch) => {
