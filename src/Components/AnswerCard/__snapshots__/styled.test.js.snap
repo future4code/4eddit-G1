@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendButton should match snapshot 1`] = `
+<div
+  className="sc-bdVaJa bhJRfQ"
+/>
+`;
+
+exports[`SendButton should match snapshot 2`] = `
+<div
+  className="sc-htpNat htxEGc"
+/>
+`;
+
+exports[`SendButton should match snapshot 3`] = `
+<span
+  className="sc-bZQynM iZGwtf"
+/>
+`;
+
+exports[`SendButton should match snapshot 4`] = `
+<img
+  className="sc-gzVnrw dCULKn"
+/>
+`;
+
+exports[`SendButton should match snapshot 5`] = `
+<div
+  className="sc-bwzfXH fICcRd"
+/>
+`;
+
+exports[`SendButton should match snapshot 6`] = `
+<span
+  className="sc-EHOje jKoLEy"
+/>
+`;
+
+exports[`SendButton should match snapshot 7`] = `
+<div
+  className="sc-bxivhb hACKXe"
+/>
+`;
+
+exports[`SendButton should match snapshot 8`] = `
+<div
+  className="sc-ifAKCX cxwvfZ"
+/>
+`;
+
+exports[`SendButton should match snapshot 9`] = `
+<div
+  className="sc-ifAKCX cxwvfZ"
+/>
+`;
+
+exports[`Styleds AnswerCardMainContainer 1`] = `
+<div
+  className="sc-bdVaJa bhJRfQ"
+/>
+`;
+
+exports[`Styleds BodyPostContent 1`] = `
+<div
+  className="sc-bxivhb hACKXe"
+/>
+`;
+
+exports[`Styleds ButtonArea 1`] = `
+<div
+  className="sc-htpNat htxEGc"
+/>
+`;
+
+exports[`Styleds ComentWords 1`] = `
+<span
+  className="sc-bZQynM iZGwtf"
+/>
+`;
+
+exports[`Styleds DownArrow 1`] = `
+<img
+  className="sc-htoDjs etQmDw"
+/>
+`;
+
+exports[`Styleds FooterPostContent 1`] = `
+<div
+  className="sc-ifAKCX cxwvfZ"
+/>
+`;
+
+exports[`Styleds HeaderPostContent 1`] = `
+<div
+  className="sc-bwzfXH fICcRd"
+/>
+`;
+
+exports[`Styleds UpArrow 1`] = `
+<img
+  className="sc-gzVnrw dCULKn"
+/>
+`;
+
+exports[`Styleds UserName 1`] = `
+<span
+  className="sc-EHOje jKoLEy"
+/>
+`;

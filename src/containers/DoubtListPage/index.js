@@ -19,7 +19,7 @@ const LogoAppBarStyled = styled(LogoAppBar)`
     cursor:pointer;
 `
 
-const SendIconStyled = styled(SendIcon)`
+export const SendIconStyled = styled(SendIcon)`
     color: #45525b;
     border-radius:50%;
     font-size:30px;
@@ -30,7 +30,7 @@ const SendIconStyled = styled(SendIcon)`
     }
 `
 
-class DoubtList extends React.Component {
+export class DoubtList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

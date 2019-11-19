@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const urlBase = 'https://us-central1-missao-newton.cloudfunctions.net/fourEddit'
 
-const setPosts = (posts) => ({
+export const setPosts = (posts) => ({
     type: 'SET_POSTS',
     payload: {
         posts

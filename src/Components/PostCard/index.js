@@ -16,7 +16,7 @@ const AvatarStyled = styled(Avatar)`
     height:30px;
 `
 
-class PostCard extends React.Component {
+export class PostCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Styleds BodyPostContent 1`] = `
+<div
+  className="sc-ifAKCX Apgsu"
+/>
+`;
+
+exports[`Styleds ButtonArea 1`] = `
+<div
+  className="sc-bxivhb hmEHNs"
+/>
+`;
+
+exports[`Styleds ComentWords 1`] = `
+<span
+  className="sc-gzVnrw dOAkBY"
+/>
+`;
+
+exports[`Styleds DownArrow 1`] = `
+<img
+  className="sc-dnqmqq imYJvK"
+/>
+`;
+
+exports[`Styleds FooterPostContent 1`] = `
+<div
+  className="sc-EHOje liqMYS"
+/>
+`;
+
+exports[`Styleds HeaderPostContent 1`] = `
+<div
+  className="sc-htpNat dLhcg"
+/>
+`;
+
+exports[`Styleds PostCardMainContainer 1`] = `
+<div
+  className="sc-bdVaJa jZSpap"
+/>
+`;
+
+exports[`Styleds PostTitle 1`] = `
+<h3
+  className="sc-bwzfXH ivdGIV"
+/>
+`;
+
+exports[`Styleds UpArrow 1`] = `
+<img
+  className="sc-htoDjs eygCcn"
+/>
+`;
+
+exports[`Styleds UserName 1`] = `
+<span
+  className="sc-bZQynM bMyLxC"
+/>
+`;
