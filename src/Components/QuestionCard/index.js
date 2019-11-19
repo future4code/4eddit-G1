@@ -7,6 +7,7 @@ import { QuestionCardMainContainer, HeaderPostContent, UserName, BodyPostContent
 import SearchIcon from '@material-ui/icons/Search';
 import Avatar from '@material-ui/core/Avatar';
 import AnswerCard from "../AnswerCard";
+import { votePosts } from "../../actions";
 
 const AvatarStyled = styled(Avatar)`
     background: #f47e20;
@@ -14,7 +15,7 @@ const AvatarStyled = styled(Avatar)`
     height:30px;
 `
 
-class QuestionCard extends React.Component {
+export class QuestionCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -22,11 +23,34 @@ class QuestionCard extends React.Component {
         }
     }
 
+    updateVote = (vote) => {
+        if (this.props.userVoteDirection !== vote) {
+            this.props.updateVotes(Number(vote), this.props.postId)
+        } else if (this.props.userVoteDirection === vote) {
+            this.props.updateVotes(0, this.props.postId)
+        }
+    }
+
     render() {
+
+        let imgup
+        if (this.props.userVoteDirection === 1) {
+            imgup = require('../../assets/upOrange.png')
+        } else {
+            imgup = require('../../assets/up.png')
+        }
+
+        let imgdown
+        if (this.props.userVoteDirection === -1) {
+            imgdown = require('../../assets/upOrange.png')
+        } else {
+            imgdown = require('../../assets/up.png')
+        }
+
         return (
             <QuestionCardMainContainer>
                 <HeaderPostContent>
-                    <AvatarStyled>{this.props.username ? this.props.username.substr(0, 1) : "F40"}
+                    <AvatarStyled>{this.props.username ? this.props.username.substr(0, 1) : "F4"}
                     </AvatarStyled>
                     <UserName>{this.props.username}</UserName>
                 </HeaderPostContent>
@@ -36,14 +60,14 @@ class QuestionCard extends React.Component {
                 </BodyPostContent>
                 <FooterPostContent>
                     <ButtonArea>
-                        <UpArrow src={require('../../assets/up.png')} alt="up" />
+                        <UpArrow onClick={() => this.updateVote(1)} src={imgup} alt="up" />
                         <span>{this.props.votesCount}</span>
-                        <DownArrow src={require('../../assets/up.png')} alt="down" />
+                        <DownArrow onClick={() => this.updateVote(-1)} src={imgdown} alt="down" />
                     </ButtonArea>
 
-                    <ComentWords>
-                        {this.props.commentsNumber ? this.props.commentsNumber : 0 } comentários
-                    </ComentWords>
+                    <span>
+                        {this.props.commentsNumber ? this.props.commentsNumber : 'sem'} {this.props.commentsNumber === 1 ? 'comentário' : 'comentários'}
+                    </span>
                 </FooterPostContent>
             </QuestionCardMainContainer>
         )
@@ -54,8 +78,8 @@ class QuestionCard extends React.Component {
 
 // })
 
-// mapDispatchToProps=dispatch=>({
+const mapDispatchToProps = dispatch => ({
+    updateVotes: (vote, postId) => dispatch(votePosts(vote, postId)),
+})
 
-// })
-
-export default connect(null, null)(QuestionCard)
+export default connect(null, mapDispatchToProps)(QuestionCard)

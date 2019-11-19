@@ -6,6 +6,7 @@ export const AnswerCardMainContainer = styled.div`
     align-items:center;
     border-top: 2px dashed #45525b;
     margin: 10px 0;
+    width:100%;
 `
 
 export const HeaderPostContent = styled.div`

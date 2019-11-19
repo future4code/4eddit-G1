@@ -1,7 +1,8 @@
 const initialState = {
     allPosts: [],
     currentIdPost: "",
-    detailsPost: {}
+    detailsPost: {},
+    errorMsg: false,
 }
 
 const posts = (state = initialState, action) => {
@@ -12,6 +13,8 @@ const posts = (state = initialState, action) => {
             return { ...state, currentIdPost: action.payload.currentPost }
         case "SET_DETAILS_POST":
             return { ...state, detailsPost: action.payload.detailsPost }
+        case "SET_ERROR_MSG":
+            return { ...state, errorMsg: action.payload.errorMsg }
         default:
             return state
     }
